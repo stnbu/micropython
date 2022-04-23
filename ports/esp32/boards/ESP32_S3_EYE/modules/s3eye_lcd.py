@@ -8,7 +8,7 @@ class LCD(SSD1306_I2C):
         reset.init(reset.OUT, value=1)
         self._reset = reset
         self.reset(False)
-        super().__init__(128, 32, i2c)
+        super().__init__(128, 64, i2c)
 
     def reset(self, reinit=True):
         self._reset(1)
@@ -29,7 +29,7 @@ class LCD(SSD1306_I2C):
         self.fill_rect(26, 24, 2, 4, 1)
         self.text("MicroPython", 40, 0, 1)
         self.text("SSD1306", 40, 12, 1)
-        self.text("LCD 128x32", 40, 24, 1)
+        self.text("LCD 128x64", 40, 24, 1)
         self.show()
 
     def display_wifi(self):

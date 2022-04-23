@@ -2,7 +2,7 @@
 
 from micropython import const
 from machine import Pin, I2C, Signal
-from s2pico_lcd import LCD
+from s3eye_lcd import LCD
 
 # Pin Assignments
 
