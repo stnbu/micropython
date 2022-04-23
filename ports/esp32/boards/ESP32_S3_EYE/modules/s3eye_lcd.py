@@ -3,7 +3,7 @@ from ssd1306 import SSD1306_I2C
 import network
 
 
-class OLED(SSD1306_I2C):
+class LCD(SSD1306_I2C):
     def __init__(self, i2c, reset):
         reset.init(reset.OUT, value=1)
         self._reset = reset
@@ -29,7 +29,7 @@ class OLED(SSD1306_I2C):
         self.fill_rect(26, 24, 2, 4, 1)
         self.text("MicroPython", 40, 0, 1)
         self.text("SSD1306", 40, 12, 1)
-        self.text("OLED 128x32", 40, 24, 1)
+        self.text("LCD 128x32", 40, 24, 1)
         self.show()
 
     def display_wifi(self):

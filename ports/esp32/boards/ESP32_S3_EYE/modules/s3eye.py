@@ -2,7 +2,7 @@
 
 from micropython import const
 from machine import Pin, I2C, Signal
-from s2pico_oled import OLED
+from s2pico_lcd import LCD
 
 # Pin Assignments
 
@@ -22,8 +22,8 @@ DAC2 = const(18)
 # LED
 LED = const(10)
 
-# OLED
-OLED_RST = const(18)
+# LCD
+LCD_RST = const(18)
 
 # BUTTON
 BUTTON = const(0)
@@ -35,4 +35,4 @@ led = Signal(LED, Pin.OUT, value=0, invert=True)
 button = Pin(BUTTON, Pin.IN, Pin.PULL_UP)
 
 i2c = I2C(0)
-oled = OLED(i2c, Pin(OLED_RST))
+lcd = LCD(i2c, Pin(LCD_RST))
