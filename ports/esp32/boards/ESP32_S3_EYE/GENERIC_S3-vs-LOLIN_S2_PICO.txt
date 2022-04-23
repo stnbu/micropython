@@ -1,0 +1,103 @@
+Quick and dirty notes on what to change to give GENERIC_S3 support for ssd1306 [lcd display] support:
+
+[[[ diff -rq GENERIC_S3 LOLIN_S2_PICO ]]]
+Files GENERIC_S3/board.json and LOLIN_S2_PICO/board.json differ
+Only in LOLIN_S2_PICO: manifest.py
+Only in LOLIN_S2_PICO: modules
+Files GENERIC_S3/mpconfigboard.cmake and LOLIN_S2_PICO/mpconfigboard.cmake differ
+Files GENERIC_S3/mpconfigboard.h and LOLIN_S2_PICO/mpconfigboard.h differ
+Files GENERIC_S3/sdkconfig.board and LOLIN_S2_PICO/sdkconfig.board differ
+[[[ diff -rwU3 GENERIC_S3 LOLIN_S2_PICO ]]]
+diff -rwU3 GENERIC_S3/board.json LOLIN_S2_PICO/board.json
+--- GENERIC_S3/board.json	2022-04-23 09:49:08.000000000 -0600
++++ LOLIN_S2_PICO/board.json	2022-04-22 10:53:35.000000000 -0600
+@@ -1,18 +1,22 @@
+ {
+     "deploy": [
+-        "../deploy_s3.md"
++        "../deploy_s2.md"
+     ],
+     "docs": "",
+     "features": [
+-        "BLE",
++        "Breadboard Friendly",
++        "OLED",
++        "SPIRAM",
++        "STEMMA QT/QWIIC",
++        "USB-C",
+         "WiFi"
+     ],
+     "images": [
+-        "generic_s3.jpg"
++        "lolin_s2_pico.jpg"
+     ],
+-    "mcu": "esp32s3",
+-    "product": "ESP32-S3",
++    "mcu": "esp32s2",
++    "product": "S2 pico",
+     "thumbnail": "",
+-    "url": "https://www.espressif.com/en/products/modules",
+-    "vendor": "Espressif"
++    "url": "https://www.wemos.cc/en/latest/s2/s2_pico.html",
++    "vendor": "Wemos"
+ }
+Only in LOLIN_S2_PICO: manifest.py
+Only in LOLIN_S2_PICO: modules
+diff -rwU3 GENERIC_S3/mpconfigboard.cmake LOLIN_S2_PICO/mpconfigboard.cmake
+--- GENERIC_S3/mpconfigboard.cmake	2022-04-23 09:49:08.000000000 -0600
++++ LOLIN_S2_PICO/mpconfigboard.cmake	2022-04-23 09:49:08.000000000 -0600
+@@ -1,8 +1,9 @@
+-set(IDF_TARGET esp32s3)
++set(IDF_TARGET esp32s2)
+ 
+ set(SDKCONFIG_DEFAULTS
+     boards/sdkconfig.base
++    boards/sdkconfig.spiram_sx
+     boards/sdkconfig.usb
+-    boards/sdkconfig.ble
+-    boards/GENERIC_S3/sdkconfig.board
+ )
++
++set(MICROPY_FROZEN_MANIFEST ${MICROPY_BOARD_DIR}/manifest.py)
+diff -rwU3 GENERIC_S3/mpconfigboard.h LOLIN_S2_PICO/mpconfigboard.h
+--- GENERIC_S3/mpconfigboard.h	2022-04-23 09:49:08.000000000 -0600
++++ LOLIN_S2_PICO/mpconfigboard.h	2022-04-22 10:53:35.000000000 -0600
+@@ -1,10 +1,12 @@
+-#define MICROPY_HW_BOARD_NAME               "ESP32S3 module"
+-#define MICROPY_HW_MCU_NAME                 "ESP32S3"
++#define MICROPY_HW_BOARD_NAME    "LOLIN_S2_PICO"
++#define MICROPY_HW_MCU_NAME      "ESP32-S2FN4R2"
+ 
+-#define MICROPY_PY_MACHINE_DAC              (0)
+-
+-// Enable UART REPL for modules that have an external USB-UART and don't use native USB.
+-#define MICROPY_HW_ENABLE_UART_REPL         (1)
++#define MICROPY_PY_BLUETOOTH     (0)
++#define MICROPY_HW_ENABLE_SDCARD (0)
+ 
+ #define MICROPY_HW_I2C0_SCL                 (9)
+ #define MICROPY_HW_I2C0_SDA                 (8)
++
++#define MICROPY_HW_SPI1_MOSI     (35)
++#define MICROPY_HW_SPI1_MISO     (36)
++#define MICROPY_HW_SPI1_SCK      (37)
+diff -rwU3 GENERIC_S3/sdkconfig.board LOLIN_S2_PICO/sdkconfig.board
+--- GENERIC_S3/sdkconfig.board	2022-04-22 10:53:35.000000000 -0600
++++ LOLIN_S2_PICO/sdkconfig.board	2022-04-22 10:53:35.000000000 -0600
+@@ -1,12 +1,6 @@
+ CONFIG_FLASHMODE_QIO=y
+ CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+-CONFIG_ESPTOOLPY_FLASHSIZE_DETECT=y
+-CONFIG_ESPTOOLPY_AFTER_NORESET=y
+-
+-CONFIG_SPIRAM_MEMTEST=
+-
+-CONFIG_ESPTOOLPY_FLASHSIZE_4MB=
+-CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+-CONFIG_ESPTOOLPY_FLASHSIZE_16MB=
+-CONFIG_PARTITION_TABLE_CUSTOM=y
+-CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions-8MiB.csv"
++CONFIG_USB_AND_UART=y
++# LWIP
++CONFIG_LWIP_LOCAL_HOSTNAME="LOLIN_S2_PICO"
++# end of LWIP
