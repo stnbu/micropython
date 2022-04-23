@@ -1,4 +1,5 @@
-# LOLIN S2 PICO MicroPython Helper Library
+# ESP32_S3_EYE v2.2 MicroPython Helper Library
+# lifted from: https://github.com/espressif/esp32-camera
 
 from micropython import const
 from machine import Pin, I2C, Signal

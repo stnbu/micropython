@@ -5,7 +5,8 @@
     "docs": "",
     "features": [
         "BLE",
-        "WiFi"
+      "WiFi",
+      "LCD"
     ],
     "images": [
         "generic_s3.jpg"
