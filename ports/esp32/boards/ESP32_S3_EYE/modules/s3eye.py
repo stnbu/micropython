@@ -2,7 +2,7 @@
 # lifted from: https://github.com/espressif/esp32-camera
 
 from micropython import const
-from machine import Pin, I2C, Signal
+from machine import Pin, SoftI2C, Signal
 from s3eye_lcd import LCD
 
 # Pin Assignments
@@ -40,5 +40,5 @@ led = Signal(LED, Pin.OUT, value=0, invert=True)
 
 button = Pin(BUTTON, Pin.IN, Pin.PULL_UP)
 
-i2c = I2C(2)
+i2c = SoftI2C(scl=Pin(I2C_SCL), sda=Pin(I2C_SDA))
 lcd = LCD(i2c, Pin(LCD_RST))
