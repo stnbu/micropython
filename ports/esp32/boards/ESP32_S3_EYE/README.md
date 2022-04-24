@@ -61,3 +61,9 @@ declare -x XPC_SERVICE_NAME="0"
 declare -x __CFBundleIdentifier="com.googlecode.iterm2"
 declare -x __CF_USER_TEXT_ENCODING="0x0:0:0"
 ```
+
+`idf.py -p (PORT) flash` is equivalent to
+
+```
+/Users/mburr/.espressif/python_env/idf4.4_py3.9_env/bin/python ../../../esp-idf/components/esptool_py/esptool/esptool.py -p (PORT) -b 460800 --before default_reset --after no_reset --chip esp32s3  write_flash --flash_mode dio --flash_size detect --flash_freq 80m 0x0 build-ESP32_S3_EYE/bootloader/bootloader.bin 0x8000 build-ESP32_S3_EYE/partition_table/partition-table.bin 0x10000 build-ESP32_S3_EYE/micropython.bin
+```
